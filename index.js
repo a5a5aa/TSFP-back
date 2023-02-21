@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import https from 'https'
 import userRoute from './routes/users.js'
 import productRoute from './routes/products.js'
 import './passport/passport.js'
@@ -47,6 +48,12 @@ app.use('/users', userRoute)
 app.use('/products', productRoute)
 app.use('/orders', orderRoute)
 app.use('/articles', articleRoute)
+
+if (process.env.render) {
+  setInterval(() => {
+    https.get(process.env.render)
+  }, 1000 * 60 * 5)
+}
 
 app.all('*', (req, res) => {
   res.status(404).json({ success: false, message: '找不到' })
