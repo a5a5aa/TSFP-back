@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 const schema = new Schema({
   date: {
     type: Date,
-    default: () => Date.now() + 8 * 60 * 60 * 1000
+    default: Date.now()
   },
   title: {
     type: String,
