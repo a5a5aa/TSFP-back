@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { jwt } from '../middleware/auth.js'
 import admin from '../middleware/admin.js'
-import { createOrder, getAllOrders, getMyOrders, getEventOrders } from '../controllers/orders.js'
+import { createOrder, getAllOrders, getMyOrders, getEventOrders, getUserOrders } from '../controllers/orders.js'
 
 const router = Router()
 
@@ -13,5 +13,6 @@ router.get('/', jwt, getMyOrders)
 router.get('/allorders', jwt, admin, getAllOrders)
 // 管理員取每個活動的報名訂單
 router.get('/eventorders/:id', jwt, admin, getEventOrders)
+router.get('/user', jwt, admin, getUserOrders)
 
 export default router

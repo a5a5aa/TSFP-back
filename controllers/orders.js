@@ -8,13 +8,16 @@ export const createOrder = async (req, res) => {
       res.status(400).json({ success: false, message: '管理員身份不得報名' })
       return
     }
-    const result = await orders.create({
-      u_id: req.user._id,
-      p_id: req.params.id
-    })
-    const results2 = await result.populate('p_id')
-    console.log(results2)
-    res.status(200).json({ success: true, message: '', result })
+    const data = await orders.find({ u_id: req.user._id, p_id: req.params.id })
+    if (data.length === 0) {
+      const result = await orders.create({
+        u_id: req.user._id,
+        p_id: req.params.id
+      })
+      res.status(200).json({ success: true, message: '', result })
+    } else {
+      res.status(400).json({ success: false, message: '您已報名此活動' })
+    }
   } catch (error) {
     if (error.name === 'ValidationError') {
       res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
@@ -61,6 +64,18 @@ export const getAllOrders = async (req, res) => {
     // .populate(關聯資料路徑, 取的欄位)
     // const result = await orders.find().populate('products.p_id').populate('users.u_id')
     const result = await orders.find().populate('p_id').populate('u_id')
+    res.status(200).json({ success: true, message: '', result })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+// 管理員取得每位使用者報名的活動
+export const getUserOrders = async (req, res) => {
+  try {
+    // .populate(關聯資料路徑, 取的欄位)
+    const result = await orders.find({ u_id: req.body.id, p_id: req.body.pd })
+    // , p_id: req.body.pd
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
