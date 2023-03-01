@@ -33,7 +33,7 @@ const schema = new Schema({
     type: String,
     required: [true, '缺少分類'],
     enum: {
-      values: ['心靈勵志', '品味生活', '藝文', '其他'],
+      values: ['心靈', '自我成長', '品味生活', '藝文', '職場', '人際', '趨勢'],
       message: '分類錯誤'
     }
   }

@@ -63,7 +63,7 @@ export const editArticle = async (req, res) => {
   try {
     const result = await articles.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
-      articleText: req.body.ArticleText,
+      articleText: req.body.articleText,
       shortDesc: req.body.shortDesc,
       keyWord: req.body.keyWord,
       image: req.file?.path,
